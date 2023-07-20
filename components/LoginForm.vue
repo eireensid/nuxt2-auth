@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'LoginForm',
   
@@ -33,10 +35,23 @@ export default {
     }
   },
 
+  created() {
+    this.setIsAuth(false)
+  },
+
   methods: {
+    ...mapMutations([
+      'setIsAuth'
+    ]),
+
     async onSubmit() {
       this.btnDisabled = true
       this.authError.show = false
+
+      const user = {
+        name: this.name,
+        password: this.password
+      }
 
       try {
         const response = await fetch(`${process.env.baseUrl}/auth/login`, {
@@ -44,8 +59,7 @@ export default {
           headers: {'Content-Type': 'application/json'},
           credentials: 'include',
           body: JSON.stringify({
-            name: this.name,
-            password: this.password
+            ...user
           })
         });
 
@@ -53,7 +67,12 @@ export default {
 
         if (response.status === 200) {
           const content = await response.json();
-          console.log(content.access_token)
+          if (content.access_token) {
+            if (process.client) {
+              localStorage.setItem('token', JSON.stringify(content.access_token));
+            }
+            this.setIsAuth(true)
+          }
 
           this.$router.push('/');
 
