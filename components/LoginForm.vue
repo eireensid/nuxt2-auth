@@ -35,10 +35,6 @@ export default {
     }
   },
 
-  created() {
-    this.setIsAuth(false)
-  },
-
   methods: {
     ...mapMutations([
       'setIsAuth'
@@ -70,11 +66,9 @@ export default {
           if (content.access_token) {
             if (process.client) {
               localStorage.setItem('token', JSON.stringify(content.access_token));
+              this.$nuxt.$emit('setToken', content.access_token)
             }
-            this.setIsAuth(true)
           }
-
-          this.$router.push('/');
 
         } else {
           this.authError.show = true

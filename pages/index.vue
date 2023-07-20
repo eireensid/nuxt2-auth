@@ -1,5 +1,5 @@
 <template>
-  <div class="p5">
+  <div class="p-5">
     <h2>{{ message }}</h2>
   </div>
 </template>
@@ -14,12 +14,12 @@ export default {
     }
   },
 
-  async mounted() {
+  async created() {
     let token = null
     if (process.client) {
       token = JSON.parse(localStorage.getItem('token'))
     }
-    
+
     const bearer = 'Bearer ' + token;
 
     try {

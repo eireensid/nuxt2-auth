@@ -1,5 +1,5 @@
 export const state = () => ({
-  isAuth: false
+  isAuth: null
 })
 
 export const getters = {
