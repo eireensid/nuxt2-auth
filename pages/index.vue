@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import fetcher from '~/mixins/fetcher'
+
 export default {
   name: 'IndexPage',
 
@@ -14,18 +16,13 @@ export default {
     }
   },
 
-  async created() {
-    let token = null
-    if (process.client) {
-      token = JSON.parse(localStorage.getItem('token'))
-    }
+  mixins: ['fetcher'],
 
-    const bearer = 'Bearer ' + token;
+  async created() {
 
     try {
-      const response = await fetch(`${process.env.baseUrl}/profile`, {
-        headers: {
-          'Authorization': bearer, 
+      const response = await fetcher(`${process.env.baseUrl}/profile`, {
+        headers: { 
           'Content-Type': 'application/json'
         },
         credentials: 'include',
