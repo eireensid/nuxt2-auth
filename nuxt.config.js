@@ -15,7 +15,7 @@ export default {
   },
 
   env: {
-    baseUrl: process.env.API_BASE_URL || 'http://localhost:3000'
+    baseUrl: process.env.API_BASE_URL || 'http://localhost:3000',
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

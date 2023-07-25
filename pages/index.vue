@@ -12,28 +12,26 @@ export default {
 
   data() {
     return {
-      message: ''
+      message: '',
     }
   },
 
   mixins: ['fetcher'],
 
   async created() {
-
     try {
       const response = await fetcher(`${process.env.baseUrl}/profile`, {
-        headers: { 
-          'Content-Type': 'application/json'
+        headers: {
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
       })
 
-      const content = await response.json();
-      this.message = `Добро пожаловать, ${content.name}!`;
-
+      const content = await response.json()
+      this.message = `Добро пожаловать, ${content.name}!`
     } catch (e) {
       console.log(e)
     }
-  }
+  },
 }
 </script>

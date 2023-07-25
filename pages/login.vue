@@ -6,6 +6,6 @@
 import LoginForm from '~/components/LoginForm.vue'
 
 export default {
-  name: 'LoginPage'
+  name: 'LoginPage',
 }
 </script>

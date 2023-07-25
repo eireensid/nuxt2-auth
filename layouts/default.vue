@@ -1,44 +1,41 @@
 <template>
   <div>
-    <client-only>
-      <nav class="navbar navbar-dark bg-dark" v-if="$store.state.isAuth">
-        <div class="container-fluid">
-          <ul class="navbar-nav mb-2 mb-md-0 w-100">
-            <li class="nav-item">
-              <a href="#" class="nav-link right" @click="logout">Выйти</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </client-only>
+    <nav class="navbar navbar-dark bg-dark" v-if="$store.state.isAuth">
+      <div class="container-fluid">
+        <ul class="navbar-nav mb-2 mb-md-0 w-100">
+          <li class="nav-item">
+            <a href="#" class="nav-link right" @click="logout">Выйти</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <Nuxt />
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import localStorage from '~/mixins/localStorage'
 
 export default {
   data() {
     return {
-      token: false
+      token: false,
     }
   },
 
+  mixins: [localStorage],
+
   created() {
-    this.$nuxt.$on('setToken', token => {
+    this.$nuxt.$on('setToken', (token) => {
       this.token = token
     })
 
-    if (process.client) {
-      this.token = JSON.parse(localStorage.getItem('token'))
-    }
+    this.getTokenFromLocal()
   },
 
   computed: {
-    ...mapState([
-      'isAuth'
-    ])
+    ...mapState(['isAuth']),
   },
 
   watch: {
@@ -50,22 +47,17 @@ export default {
         this.setIsAuth(false)
         this.$router.push('/login')
       }
-    }
+    },
   },
 
   methods: {
-    ...mapMutations([
-      'setIsAuth'
-    ]),
+    ...mapMutations(['setIsAuth']),
 
     logout() {
-      this.setIsAuth(false)
-
-      if (process.client) {
-        this.token = localStorage.removeItem('token')
-      }
-    }
-  }
+      this.removeTokenFromLocal()
+      this.$router.push('/login')
+    },
+  },
 }
 </script>
 

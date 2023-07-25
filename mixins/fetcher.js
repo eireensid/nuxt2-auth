@@ -1,15 +1,18 @@
 function updateOptions(options) {
-  const update = { ...options };
-  const token = JSON.parse(localStorage.getItem('token'))
+  const update = { ...options }
+  let token = null
+  if (process.client) {
+    token = JSON.parse(localStorage.getItem('token'))
+  }
   if (token) {
     update.headers = {
       ...update.headers,
       Authorization: `Bearer ${token}`,
-    };
+    }
   }
-  return update;
+  return update
 }
 
 export default function fetcher(url, options) {
-  return fetch(url, updateOptions(options));
+  return fetch(url, updateOptions(options))
 }
