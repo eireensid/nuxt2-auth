@@ -3,8 +3,8 @@
     <nav class="navbar navbar-dark bg-dark" v-if="$store.state.isAuth">
       <div class="container-fluid">
         <ul class="navbar-nav mb-2 mb-md-0 w-100">
-          <li class="nav-item">
-            <a href="#" class="nav-link right" @click="logout">Выйти</a>
+          <li class="nav-item right">
+            <button class="nav-link" @click="logout">Выйти</button>
           </li>
         </ul>
       </div>
@@ -20,7 +20,7 @@ import localStorage from '~/mixins/localStorage'
 export default {
   data() {
     return {
-      token: false,
+      token: null,
     }
   },
 
@@ -31,7 +31,7 @@ export default {
       this.token = token
     })
 
-    this.getTokenFromLocal()
+    this.token = this.getTokenFromLocal() ?? false
   },
 
   computed: {
@@ -55,7 +55,7 @@ export default {
 
     logout() {
       this.removeTokenFromLocal()
-      this.$router.push('/login')
+      this.token = false
     },
   },
 }
@@ -72,6 +72,6 @@ export default {
 
 <style scoped>
 .right {
-  text-align: right;
+  align-self: end;
 }
 </style>

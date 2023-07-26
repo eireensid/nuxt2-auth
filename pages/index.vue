@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5">
+  <div class="p-5" v-if="$store.state.isAuth">
     <h2>{{ message }}</h2>
   </div>
 </template>

@@ -7,7 +7,7 @@ export default {
     },
     getTokenFromLocal() {
       if (process.client) {
-        this.token = JSON.parse(localStorage.getItem('token'))
+        return JSON.parse(localStorage.getItem('token'))
       }
     },
     removeTokenFromLocal() {
